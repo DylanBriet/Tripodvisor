@@ -299,7 +299,7 @@ p {
   border-radius: 5px;
 }
 
-.newsletter__close {
+.btn--close {
   position: absolute;
   right: 0.4rem;
   top: 0.4rem;
@@ -365,4 +365,19 @@ p {
 
 .newsletter-marketing .btn{
   margin: 0 auto;
+}
+
+.dialog{
+  padding: 2.5em 1em 1em 1em;
+  border: var(--border-normal);
+}
+
+.dialog--error{
+  border-color: red;
+  color: red;
+  background-color: rgb(255, 228, 228);
+}
+
+.dialog--error .btn--close{
+  background-color: red;
 }

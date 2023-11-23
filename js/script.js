@@ -22,6 +22,9 @@ const app = {
     './img/road.jpg',
     './img/ski.jpg',
   ],
+  sliderPreviousButton: null,
+  sliderNextButton: null,
+  dots: [],
 
   init(){
     app.getAppElements();
@@ -41,11 +44,10 @@ const app = {
     app.dialogClose = document.querySelector('.dialog__close');
     app.dialogMessage = document.querySelector('.dialog__message');
     app.slider = document.querySelector('.slider');
-    app.sliderPreviousButton = document.querySelector('#slider-previous');
-    app.sliderNextButton = document.querySelector('#slider-next');
   },
 
   createSlider(){
+    // Ajout de images
     app.sliderImageElements = app.sliderImages.map((imageUrl, imagUrlIndex) => {
       const imgElement = document.createElement('img');
       imgElement.src = imageUrl;
@@ -56,7 +58,37 @@ const app = {
       }
       return imgElement;
     });
-    app.slider.prepend(...app.sliderImageElements);// [elem1, elem2, elem3] ==> elem1, elem2, elem3
+    app.slider.append(...app.sliderImageElements);// [elem1, elem2, elem3] ==> elem1, elem2, elem3
+
+    // Ajout des bouton next et previous
+    app.sliderPreviousButton = document.createElement('button');
+    app.sliderPreviousButton.type = 'button';
+    app.sliderPreviousButton.ariaLabel = 'Précédent';
+    app.sliderPreviousButton.classList.add('btn', 'slider__btn');
+    app.sliderPreviousButton.innerHTML = '&lt;';
+
+    app.sliderNextButton = document.createElement('button');
+    app.sliderNextButton.type = 'button';
+    app.sliderNextButton.ariaLabel = 'Suivant';
+    app.sliderNextButton.classList.add('btn', 'slider__btn');
+    app.sliderNextButton.innerHTML = '&gt;';
+
+    // Ajout des puces
+    app.sliderNav = document.createElement('div');
+    app.sliderNav.classList.add('slider__nav');
+    app.sliderImageElements.forEach((_,index) => {
+      const dot = document.createElement('span');
+      dot.classList.add('slider__nav-item');
+      if(index===0){
+        dot.classList.add('active');
+      }
+      dot.dataset.index = index;
+      app.sliderNav.append(dot);
+      app.dots.push(dot);
+    });
+
+    // On ajoute les outils au slider
+    app.slider.append(app.sliderPreviousButton, app.sliderNextButton, app.sliderNav);
   },
 
   animateSlider(){
@@ -66,7 +98,7 @@ const app = {
 
   sliderNext(){
     // On récupère l'élément courant en se servant de l'index courant et on lui retire la classe
-    app.sliderImageElements[app.sliderCurrentImageIndex].classList.remove('slider__img--current');
+    app.sliderImageElements[app.sliderCurrentImageIndex].classList.remove('slider__img--current');app.dots[app.sliderCurrentImageIndex].classList.remove('active');
 
     // On incrémente l'index courant de 1
     app.sliderCurrentImageIndex +=1;
@@ -77,17 +109,17 @@ const app = {
     }
 
     // On ajoute la classe à l'élément courant
-    app.sliderImageElements[app.sliderCurrentImageIndex].classList.add('slider__img--current');
+    app.sliderImageElements[app.sliderCurrentImageIndex].classList.add('slider__img--current');app.dots[app.sliderCurrentImageIndex].classList.add('active');
   },
 
   sliderPrevious(){
-    app.sliderImageElements[app.sliderCurrentImageIndex].classList.remove('slider__img--current');
+    app.sliderImageElements[app.sliderCurrentImageIndex].classList.remove('slider__img--current');app.dots[app.sliderCurrentImageIndex].classList.remove('active');
     app.sliderCurrentImageIndex -=1;
     if(app.sliderCurrentImageIndex < 0){
       app.sliderCurrentImageIndex = app.sliderImageElements.length - 1;
     }
     console.log(app.sliderImageElements, app.sliderCurrentImageIndex);
-    app.sliderImageElements[app.sliderCurrentImageIndex].classList.add('slider__img--current');
+    app.sliderImageElements[app.sliderCurrentImageIndex].classList.add('slider__img--current');app.dots[app.sliderCurrentImageIndex].classList.add('active');
   },
 
   addEventListeners(){
@@ -114,6 +146,7 @@ const app = {
     app.dialogClose.addEventListener('click', app.dialogCloseClickHandler);
     app.sliderNextButton.addEventListener('click', app.sliderNext);
     app.sliderPreviousButton.addEventListener('click', app.sliderPrevious);
+    app.sliderNav.addEventListener('click', app.sliderNavClickHandler);
   },
 
   newsletterClickHandler(event){
@@ -172,8 +205,18 @@ const app = {
     } else if(window.scrollY < 300 && app.newsletterShown) {
       app.hideNewsletterFrame();
     }
+  },
+
+  sliderNavClickHandler(event){
+    const dot = event.target;
+    if(dot.classList.contains('slider__nav-item')){
+      app.sliderImageElements[app.sliderCurrentImageIndex].classList.remove('slider__img--current');app.dots[app.sliderCurrentImageIndex].classList.remove('active');
+      app.sliderCurrentImageIndex = dot.dataset.index;
+      app.sliderImageElements[app.sliderCurrentImageIndex].classList.add('slider__img--current');app.dots[app.sliderCurrentImageIndex].classList.add('active');
+    }
   }
 
 };
 
-app.init();
+//app.init();
+document.addEventListener('DOMContentLoaded', app.init);

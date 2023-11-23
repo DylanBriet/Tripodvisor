@@ -244,6 +244,20 @@ p {
   height: 0.5em;
   border-radius: 50%;
   background-color: white;
+  opacity: 0.5;
+  transition: all 0.5s;
+  cursor: pointer;
+  box-shadow:  0 0 5px rgba(0,0,0,1 );
+}
+
+.slider__nav-item:hover{
+  opacity: 1;
+}
+
+.slider__nav-item.active{
+  transform: scale(1.5);
+  opacity: 1;
+  cursor:default;
 }
 
 /* filters & reviews */

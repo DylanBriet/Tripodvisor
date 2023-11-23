@@ -46,18 +46,17 @@ const app = {
   },
 
   createSlider(){
-    const imgElements = app.sliderImages.map((imageUrl, imagUrlindex) => {
+    app.sliderImageElements = app.sliderImages.map((imageUrl, imagUrlIndex) => {
       const imgElement = document.createElement('img');
       imgElement.src = imageUrl;
       imgElement.classList.add('slider__img');
-      if(imagUrlindex === 0){
-        app.sliderCurrentImage = imgElement;
+      if(imagUrlIndex === 0){
+        app.sliderCurrentImageIndex = imagUrlIndex;
         imgElement.classList.add('slider__img--current');
       }
       return imgElement;
     });
-    console.log(imgElements);
-    app.slider.prepend(...imgElements);// [elem1, elem2, elem3] ==> elem1, elem2, elem3
+    app.slider.prepend(...app.sliderImageElements);// [elem1, elem2, elem3] ==> elem1, elem2, elem3
   },
 
   animateSlider(){
@@ -66,18 +65,29 @@ const app = {
   },
 
   sliderNext(){
-    // On commence par retirer la classe de l'image courante
-    app.sliderCurrentImage.classList.remove('slider__img--current');
-    // Ensuite on tente de mettre à jour l'image courabte avec suivante
-    app.sliderCurrentImage = app.sliderCurrentImage.nextElementSibling;
-    // Si jamais il n'y a pas de suivante, on revient à la première image
-    // Rappel : ! inverse un true en false, ou un truthy en false. (valable dans l'autre sens)
-    if(app.sliderCurrentImage.classList.contains('btn') || !app.sliderCurrentImage){
-      app.sliderCurrentImage = app.slider.firstChild;
+    // On récupère l'élément courant en se servant de l'index courant et on lui retire la classe
+    app.sliderImageElements[app.sliderCurrentImageIndex].classList.remove('slider__img--current');
+
+    // On incrémente l'index courant de 1
+    app.sliderCurrentImageIndex +=1;
+
+    // On vérifie que l'index esiste bien, n'est pas supérieur à la longueur du tableau référençant l'ensemble des images
+    if(app.sliderCurrentImageIndex > (app.sliderImageElements.length - 1)){
+      app.sliderCurrentImageIndex = 0;
     }
-    console.log(app.sliderCurrentImage);
-    // Et enfin on rajoute la classe pour l'image courante
-    app.sliderCurrentImage.classList.add('slider__img--current');
+
+    // On ajoute la classe à l'élément courant
+    app.sliderImageElements[app.sliderCurrentImageIndex].classList.add('slider__img--current');
+  },
+
+  sliderPrevious(){
+    app.sliderImageElements[app.sliderCurrentImageIndex].classList.remove('slider__img--current');
+    app.sliderCurrentImageIndex -=1;
+    if(app.sliderCurrentImageIndex < 0){
+      app.sliderCurrentImageIndex = app.sliderImageElements.length - 1;
+    }
+    console.log(app.sliderImageElements, app.sliderCurrentImageIndex);
+    app.sliderImageElements[app.sliderCurrentImageIndex].classList.add('slider__img--current');
   },
 
   addEventListeners(){
@@ -102,6 +112,8 @@ const app = {
     document.addEventListener('scroll', app.scrollHandler);
     app.newsletterForm.addEventListener('submit', app.newsletterFormSubmitHandler);
     app.dialogClose.addEventListener('click', app.dialogCloseClickHandler);
+    app.sliderNextButton.addEventListener('click', app.sliderNext);
+    app.sliderPreviousButton.addEventListener('click', app.sliderPrevious);
   },
 
   newsletterClickHandler(event){
@@ -126,7 +138,6 @@ const app = {
 
     // Afin de pouvoir stopper la boucle dès qu'une erreur intervient on utilise une boucle algorithmique que l'on pourra stopper avec "break". Ce que l'on ne peut pas faire avec un forEach
     for(const forbiddenDomain of app.forbiddenDomains) {
-      console.log(forbiddenDomain);
       if(userEmailInput.includes(forbiddenDomain)){
         // on annule la soumission du formulaire
         event.preventDefault();
@@ -145,13 +156,11 @@ const app = {
   },
 
   showNewsletterFrame(){
-    console.log('show');
     app.newsletterShown = true;
     document.querySelector('.newsletter').classList.remove('newsletter--hidden');
   },
 
   hideNewsletterFrame(){
-    console.log('hide');
     app.newsletterShown = false;
     document.querySelector('.newsletter').classList.add('newsletter--hidden');
   },

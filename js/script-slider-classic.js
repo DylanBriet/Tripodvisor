@@ -45,17 +45,19 @@ const app = {
   },
 
   createSlider(){
-    const imgElements = app.sliderImages.map((imageUrl, imagUrlindex) => {
+    // Il faut boucler sur le tableau qui référence l'ensemble des images à implémenter dans le slider
+    // Pour chaque image créer un élément <img> et l'attacher à l'élément "slider"
+    app.sliderImages.forEach((imageUrl, indexImageUrl) => {
       const imgElement = document.createElement('img');
       imgElement.src = imageUrl;
+      // On ajoute la classe CSS slider__img
       imgElement.classList.add('slider__img');
-      if(imagUrlindex === 0){
+      // Dans le cas ou c'est la première occurence d'image on ajoute également la classe qui la défini comme étant l'image active
+      if(indexImageUrl === 0){
         imgElement.classList.add('slider__img--current');
       }
-      return imgElement;
+      app.slider.append(imgElement);
     });
-    console.log(imgElements);
-    app.slider.append(...imgElements);// [elem1, elem2, elem3] ==> elem1, elem2, elem3
   },
 
   addEventListeners(){

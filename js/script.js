@@ -14,9 +14,18 @@ const app = {
     '@hide.biz.st',
     '@mymail.infos.st',
   ],
+  sliderImages: [
+    './img/canyon.jpg',
+    './img/city.jpg',
+    './img/nature.jpg',
+    './img/ocean.jpg',
+    './img/road.jpg',
+    './img/ski.jpg',
+  ],
 
   init(){
     app.getAppElements();
+    app.createSlider();
     app.addEventListeners();
   },
 
@@ -30,6 +39,25 @@ const app = {
     app.dialogError = document.querySelector('.dialog--error');
     app.dialogClose = document.querySelector('.dialog__close');
     app.dialogMessage = document.querySelector('.dialog__message');
+    app.slider = document.querySelector('.slider');
+    app.sliderPreviousButton = document.querySelector('#slider-previous');
+    app.sliderNextButton = document.querySelector('#slider-next');
+  },
+
+  createSlider(){
+    // Il faut boucler sur le tableau qui référence l'ensemble des images à implémenter dans le slider
+    // Pour chaque image créer un élément <img> et l'attacher à l'élément "slider"
+    app.sliderImages.forEach((imageUrl, indexImageUrl) => {
+      const imgElement = document.createElement('img');
+      imgElement.src = imageUrl;
+      // On ajoute la classe CSS slider__img
+      imgElement.classList.add('slider__img');
+      // Dans le cas ou c'est la première occurence d'image on ajoute également la classe qui la défini comme étant l'image active
+      if(indexImageUrl === 0){
+        imgElement.classList.add('slider__img--current');
+      }
+      app.slider.append(imgElement);
+    });
   },
 
   addEventListeners(){

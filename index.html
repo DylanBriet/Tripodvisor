@@ -218,7 +218,7 @@
   <aside class="newsletter newsletter--hidden">
     <button class="newsletter__close btn" aria-label="Fermer" type="button">&Cross;</button>
     <h2 class="newsletter__title">Inscription à la newsletter</h2>
-    <form>
+    <form class="newsletter__form">
       <input class="newsletter__field" type="email" required id="subscriber-email" placeholder="user@email.com" aria-label="Votre email">
       <button class="btn" type="submit">Valider</button>
     </form>
@@ -229,5 +229,10 @@
       <p>Toute ressemblance avec d'autres contenus est purement fortuite.</p>
     </div>
   </footer>
+
+  <dialog class="dialog dialog--error">
+    <button autofocus class="btn dialog__close">⨯</button>
+    <p class="dialog__message">Une erreur est survenue</p>
+  </dialog>
 </body>
 </html>

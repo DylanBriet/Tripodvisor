@@ -8,6 +8,7 @@
   <link rel="stylesheet" href="css/fonts.css">
   <link rel="stylesheet" href="css/styles.css">
   <link rel="shortcut icon" href="img/favicon.ico" type="image/x-icon">
+  <script src="./js/script.js" defer></script>
 </head>
 <body>
 
@@ -21,9 +22,9 @@
               <span class="logo__title">Trip O'dvisor</span>
             </a>
             <div class="menu">
-              <a class="menu__item" href=""><i class="icon-heart"></i> Favoris</a>
-              <a class="menu__item" href=""><i class="icon-mail"></i> Newsletter</a>
-              <a class="menu__item" href=""><i class="icon-check-circle"></i> Avis</a>
+              <a class="menu__item" href="#"><i class="icon-heart"></i> Favoris</a>
+              <a class="menu__item newsletter-show-link" href="#"><i class="icon-mail"></i> Newsletter</a>
+              <a class="menu__item" href="#"><i class="icon-check-circle"></i> Avis</a>
               <button id="theme-switch" class="btn" type="button" aria-label="Changer le thème"><i class="icon-moon"></i></button>
               <div class="menu__color-switcher">
                 <button id="theme-green" class="theme-button" type="button" aria-label="Changer la couleur du thème"></button>
@@ -211,7 +212,7 @@
     </div>
   </main>
 
-  <aside class="newsletter">
+  <aside class="newsletter newsletter--hidden">
     <button class="newsletter__close btn" aria-label="Fermer" type="button">&Cross;</button>
     <h2 class="newsletter__title">Inscription à la newsletter</h2>
     <form>

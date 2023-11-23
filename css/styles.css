@@ -301,8 +301,9 @@ p {
 
 .newsletter__close {
   position: absolute;
-  right: 0;
-  top: 0;
+  right: 0.4rem;
+  top: 0.4rem;
+  padding: 0.1rem 0.5rem 0.5rem 0.5rem;
 }
 
 /* bottom */

@@ -26,6 +26,7 @@ const app = {
   init(){
     app.getAppElements();
     app.createSlider();
+    app.animateSlider();
     app.addEventListeners();
   },
 
@@ -50,12 +51,33 @@ const app = {
       imgElement.src = imageUrl;
       imgElement.classList.add('slider__img');
       if(imagUrlindex === 0){
+        app.sliderCurrentImage = imgElement;
         imgElement.classList.add('slider__img--current');
       }
       return imgElement;
     });
     console.log(imgElements);
-    app.slider.append(...imgElements);// [elem1, elem2, elem3] ==> elem1, elem2, elem3
+    app.slider.prepend(...imgElements);// [elem1, elem2, elem3] ==> elem1, elem2, elem3
+  },
+
+  animateSlider(){
+    // setInterval perment d'executer une fonction en boucle timé
+    app.sliderAnimation = setInterval(app.sliderNext, 10000);
+  },
+
+  sliderNext(){
+    // On commence par retirer la classe de l'image courante
+    app.sliderCurrentImage.classList.remove('slider__img--current');
+    // Ensuite on tente de mettre à jour l'image courabte avec suivante
+    app.sliderCurrentImage = app.sliderCurrentImage.nextElementSibling;
+    // Si jamais il n'y a pas de suivante, on revient à la première image
+    // Rappel : ! inverse un true en false, ou un truthy en false. (valable dans l'autre sens)
+    if(app.sliderCurrentImage.classList.contains('btn') || !app.sliderCurrentImage){
+      app.sliderCurrentImage = app.slider.firstChild;
+    }
+    console.log(app.sliderCurrentImage);
+    // Et enfin on rajoute la classe pour l'image courante
+    app.sliderCurrentImage.classList.add('slider__img--current');
   },
 
   addEventListeners(){

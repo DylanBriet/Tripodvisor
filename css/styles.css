@@ -358,3 +358,11 @@ p {
     width: calc((100% - 2rem) / 3);
   }
 }
+
+.newsletter-marketing{
+  text-align: center;
+}
+
+.newsletter-marketing .btn{
+  margin: 0 auto;
+}

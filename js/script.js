@@ -8,13 +8,29 @@ const app = {
   },
 
   getAppElements(){
+    // app.newsletterLinks = [{Node}, {Node}, {Node}]
     app.newsletterLinks = document.querySelectorAll('.newsletter-show-link');
+    // app.newsletterCloseButton = {Node}
     app.newsletterCloseButton = document.querySelector('.newsletter__close');
   },
 
   addEventListeners(){
-    app.newsletterLinks.forEach((link) => {
-      link.addEventListener('click', app.newsletterClickHandler);
+    /*
+    for(let indexNode = 0; indexNode < app.newsletterLinks.length; indexNode+=1){
+      app.newsletterLinks[indexNode].addEventListener('click', app.newsletterClickHandler);
+    }
+    */
+    /*
+    for(const newsletterLink of app.newsletterLinks){
+      newsletterLink.addEventListener('click', app.newsletterClickHandler);
+    }
+    */
+    // newsletterLink est un des élément récupérer via le querySelectorAll
+    // donc un des élément du tableau app.newsletterLinks
+    // On aurait pu l'appeler michel
+    // app.newsletterLinks.forEach(/* function fléché anomnyme de callback */);
+    app.newsletterLinks.forEach((newsletterLink) => {
+      newsletterLink.addEventListener('click', app.newsletterClickHandler);
     });
     app.newsletterCloseButton.addEventListener('click', app.newsletterCloseButtonClickHandler);
     document.addEventListener('scroll', app.scrollHandler);
